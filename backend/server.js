@@ -18,7 +18,7 @@ function main(){
 		// Update the LED value 
 		var state = snapshot.val();
 		console.log('Updating the state of the LED to ' + state);
-		bonescript.pinMode(led, b.OUTPUT);
+		bonescript.pinMode(led, bonescript.OUTPUT);
 		bonescript.digitalWrite(led, state);
 	});
 
