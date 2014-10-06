@@ -3,14 +3,12 @@ var Firebase = require('firebase');
 // var greenBean = require("green-bean");
 
 var led = "P8_13";
-var currentTempVal = 0;
+var currentAnalogVal = 0;
 
 function main(){
-	console.log('hello, world!');
-
 	var ref = new Firebase('https://iot-firebase.firebaseio.com');
 	var lightRef = ref.child('led');
-	var tempRef = ref.child('temperature');
+	var ambientRef = ref.child('ambient');
 	var fridgeRef = ref.child('appliances/refrigerator');
 	var rangeRef = ref.child('appliances/range');
 
@@ -27,12 +25,12 @@ function main(){
 		console.log('Updating the state of the LED to ' + state);
 	});
 
-	// Read analog measurement
+	// Read analog measurement every second
 	var timer = setInterval(function(){
-		bonescript.analogRead('P9_36', function(temp){
-			if (currentTempVal !== temp.value) {
-				tempRef.push({temperature:temp.value, timestamp:Firebase.ServerValue.TIMESTAMP});
-				currentTempVal = temp.value;
+		bonescript.analogRead('P9_36', function(analogVal){
+			if (currentAnalogVal !== analogVal.value) {
+				ambientRef.push({value:analogVal.value, timestamp:Firebase.ServerValue.TIMESTAMP});
+				currentAnalogVal = analogVal.value;
 			}
 		});
 	}, 1000);
