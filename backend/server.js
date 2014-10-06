@@ -3,6 +3,7 @@ var Firebase = require('firebase');
 // var greenBean = require("green-bean");
 
 var led = "P8_13";
+var currentTempVal = 0;
 
 function main(){
 	console.log('hello, world!');
@@ -29,7 +30,10 @@ function main(){
 	// Read analog measurement
 	var timer = setInterval(function(){
 		bonescript.analogRead('P9_36', function(temp){
-			tempRef.push({temperature:temp, timestamp:Firebase.ServerValue.TIMESTAMP});
+			if (currentTempVal != temp) {
+				tempRef.push({temperature:temp, timestamp:Firebase.ServerValue.TIMESTAMP});
+			}
+			currentTempVal = temp;
 		});
 	}, 100);
 
