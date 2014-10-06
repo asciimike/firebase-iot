@@ -30,10 +30,10 @@ function main(){
 	// Read analog measurement
 	var timer = setInterval(function(){
 		bonescript.analogRead('P9_36', function(temp){
-			if (currentTempVal != temp) {
+			if (currentTempVal !== temp) {
 				tempRef.push({temperature:temp, timestamp:Firebase.ServerValue.TIMESTAMP});
+				currentTempVal = temp;
 			}
-			currentTempVal = temp;
 		});
 	}, 100);
 
