@@ -17,10 +17,21 @@ function main(){
 	lightRef.on('value', function(snapshot){
 		// Update the LED value 
 		var state = snapshot.val();
-		console.log('Updating the state of the LED to ' + state);
+
+		// Set the LED value via bonescript
 		bonescript.pinMode(led, bonescript.OUTPUT);
 		bonescript.digitalWrite(led, state);
+
+		// Log the output
+		console.log('Updating the state of the LED to ' + state);
 	});
+
+	// Read analog measurement
+	var timer = setInterval(function(){
+		bonescript.analogRead('P9_36', function(temp){
+			tempRef.push({temperature:temp, timestamp:Firebase.ServerValue.TIMESTAMP});
+		});
+	}, 100);
 
 	// Fridge Greenbean Callback
 	// greenBean.connect("refrigerator", function (refrigerator) {
