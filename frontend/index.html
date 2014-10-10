@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>FirstBuild + Firebase Demo</title>
+
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+
+		<link rel="stylesheet" href="stylesheet.css">
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="header">
+				<ul class="nav nav-pills pull-right">
+					<li id="led-select" class="active"><a href="#">LED</a></li>
+					<li id="ambient-select" ><a href="#">Ambient</a></li>
+					<li class="dropdown" id="accountmenu"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">Appliances<b class="caret"></b></a>
+						<ul id="printer-list" class="dropdown-menu">
+							<li id="range-select"><a href="#">Range</a></li>
+							<li id="fridge-select"><a href="#">Fridge</a></li>
+							<li class="divider"></li>
+							<li id=""><a href="#">Add a new appliance</a></li>
+						</ul>
+					</li>
+					<li><a href="https://github.com/mcdonamp/firebase-iot">Source</a></li>
+<!-- 					<li><a id="login-button" href="#">Log in</a></li>
+					<li><a id="logout-button" href="#">Log out</a></li> -->
+				</ul>
+					<h3 class="text-muted">FirstBuild Demo</h3>
+			</div>
+
+<!-- 			<div class="jumbotron">
+				<h2 id="printer-name-heading">Select a printer!</h2>
+				<div class="well well-sm" id="message-background"></div>
+			</div> -->
+
+			<div id="led-view">
+				<div id="led-on"></div>
+			</div>
+
+			<div id="ambient-light-view">
+
+			</div>
+
+			<div id="fridge-view">
+
+			</div>
+
+	    	<div class="footer">
+	    		<p>&copy; Mike McDonald 2014</p>
+	    	</div>
+
+    	</div>
+
+    	<!-- Firebase -->
+		<script src="https://cdn.firebase.com/js/client/1.0.23/firebase.js"></script>
+
+		<!-- Firebase Simple Login -->
+		<script src="https://cdn.firebase.com/js/simple-login/1.6.4/firebase-simple-login.js"></script>
+
+    	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+		<!-- Page Script -->
+		<script type="text/javascript">
+			$(function() {
+
+				// Set up Firebase references
+				var ref = new Firebase('https://iot-firebase.firebaseio.com');
+				var lightRef = ref.child('led');
+				var ambientRef = ref.child('ambient');
+				var fridgeRef = ref.child('appliances/refrigerator');
+				var rangeRef = ref.child('appliances/range');
+
+				// Set up the LED
+
+
+
+				lightRef.on('value', function(snapshot){
+					var data = snapshot.val();
+					if (data === 0) {
+						// Light is "off"
+
+					} else if (data === 1) {
+						// Light is "on"
+
+					} else {
+						// Do nothing
+
+					}
+				});
+
+				// Button listeners
+				$('#led-select').on('click', function(){
+					console.log('Clicked on the LED');
+					$('#led-view').show();
+					$('#ambient-view').hide();
+					$('#fridge-view').hide();
+					$('#range-view').hide();
+				});
+
+				$('#ambient-select').on('click', function(){
+					console.log('Clicked on the ambient');
+					$('#led-view').hide();
+					$('#ambient-view').show();
+					$('#fridge-view').hide();
+					$('#range-view').hide();
+				});
+
+				$('#fridge-select').on('click', function(){
+					console.log('Clicked on the fridge');
+					$('#led-view').hide();
+					$('#ambient-view').hide();
+					$('#fridge-view').show();
+					$('#range-view').hide();
+				});
+
+				$('#range-select').on('click', function(){
+					console.log('Clicked on the range');
+					$('#led-view').hide();
+					$('#ambient-view').hide();
+					$('#fridge-view').hide();
+					$('#range-view').show();
+				});
+			});
+		</script>
+	</body>
+</html>
